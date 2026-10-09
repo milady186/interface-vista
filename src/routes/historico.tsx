@@ -22,7 +22,7 @@ function Historico() {
   const [rows, setRows] = useState(inicial);
   const [filtro, setFiltro] = useState<Estado | "Todos">("Todos");
   const avanzar = (id: number) =>
-    setRows((r) => r.map((a) => (a.id === id ? { ...a, estado: ESTADOS[Math.min(2, ESTADOS.indexOf(a.estado) + 1)] } : a)));
+    setRows((r) => r.map((a) => (a.id === id ? { ...a, estado: ESTADOS[Math.min(2, ESTADOS.indexOf(a.estado) + 1)]! } : a)));
   const vis = rows.filter((a) => filtro === "Todos" || a.estado === filtro);
 
   return (

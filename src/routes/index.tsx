@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 
 function Dashboard() {
   const dist = (["Bajo", "Medio", "Alto"] as const).map((r) => ({ name: r, value: colaboradores.filter((c) => c.riesgo === r).length }));
-  const altos = dist[2].value;
+  const altos = dist[2]!.value;
   const kpis = [
     { label: "Tasa de rotación actual", value: "35%", hint: "Anual · meta 20%", icon: TrendingDown, tone: "text-danger" },
     { label: "Colaboradores activos", value: "200", hint: "6 campañas", icon: Users, tone: "text-primary" },

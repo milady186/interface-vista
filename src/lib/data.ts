@@ -24,7 +24,7 @@ const rand = () => {
   seed = (seed * 16807) % 2147483647;
   return (seed - 1) / 2147483646;
 };
-const pick = <T,>(a: T[]) => a[Math.floor(rand() * a.length)];
+const pick = <T,>(a: T[]): T => a[Math.floor(rand() * a.length)]!;
 
 const nombres = ["Lucía", "Carlos", "María", "José", "Ana", "Luis", "Rosa", "Jorge", "Carmen", "Miguel", "Diana", "Pedro", "Valeria", "Diego", "Fiorella", "Renzo", "Milagros", "Kevin", "Andrea", "Bryan", "Gabriela", "Jhon", "Katherine", "Alonso", "Sofía", "Junior", "Melissa", "Franco", "Yesenia", "Paolo"];
 const apellidos = ["Quispe", "Flores", "Rodríguez", "Huamán", "Sánchez", "García", "Mamani", "Torres", "Ramírez", "Chávez", "Vargas", "Mendoza", "Rojas", "Castillo", "Gutiérrez", "Salazar", "Paredes", "Espinoza", "Cárdenas", "Ríos"];
@@ -86,7 +86,7 @@ export const soles = (n: number) => `S/ ${n.toLocaleString("es-PE")}`;
 export const rotacionPorCampana = CAMPANAS.map((c, i) => ({
   campana: c.replace(" ", "\n"),
   nombre: c,
-  rotacion: [42, 31, 38, 27, 33, 45][i],
+  rotacion: [42, 31, 38, 27, 33, 45][i]!,
 }));
 
 export const tendenciaMensual = [
@@ -137,4 +137,4 @@ export const alertas = colaboradores
   .filter((c) => c.riesgo === "Alto")
   .sort((a, b) => b.probabilidad - a.probabilidad)
   .slice(0, 6)
-  .map((c, i) => ({ ...c, hace: ["hace 12 min", "hace 48 min", "hace 2 h", "hace 5 h", "ayer", "ayer"][i] }));
+  .map((c, i) => ({ ...c, hace: ["hace 12 min", "hace 48 min", "hace 2 h", "hace 5 h", "ayer", "ayer"][i]! }));
