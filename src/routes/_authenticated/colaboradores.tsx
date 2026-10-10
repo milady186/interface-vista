@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { CAMPANAS, COEFICIENTES, TURNOS, colaboradores, formatAntiguedad, soles, type Colaborador } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/colaboradores")({
+export const Route = createFileRoute("/_authenticated/colaboradores")({
   head: () => ({
     meta: [
       { title: "Colaboradores y riesgo — TalentAnalytics" },

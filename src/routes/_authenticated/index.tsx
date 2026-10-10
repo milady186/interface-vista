@@ -4,7 +4,7 @@ import { AlertTriangle, TrendingDown, Users, Wallet, ShieldAlert } from "lucide-
 import { PageHeader, Panel, RiskBadge } from "@/components/app-shell";
 import { alertas, colaboradores, rotacionPorCampana } from "@/lib/data";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
     meta: [
       { title: "Dashboard — TalentAnalytics" },
