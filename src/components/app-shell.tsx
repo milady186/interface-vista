@@ -1,8 +1,45 @@
-import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users, History, BarChart3, Activity, Bell } from "lucide-react";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { LayoutDashboard, Users, History, BarChart3, Activity, Bell, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { Riesgo, Estado } from "@/lib/data";
+import { supabase } from "@/integrations/supabase/client";
+
+function UserMenu() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { data } = useQuery({
+    queryKey: ["mi-perfil"],
+    queryFn: async () => {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) return null;
+      const { data: p } = await supabase.from("profiles").select("nombre, cargo").eq("id", u.user.id).maybeSingle();
+      return { nombre: p?.nombre || u.user.email || "Usuario", cargo: p?.cargo || "" };
+    },
+  });
+  const iniciales = (data?.nombre ?? "RH").split(/[\s@.]+/).filter(Boolean).slice(0, 2).map((s) => s[0]!.toUpperCase()).join("");
+
+  async function salir() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  }
+
+  return (
+    <div className="flex items-center gap-3">
+      <div className="hidden text-right sm:block">
+        <p className="text-sm font-semibold leading-tight">{data?.nombre ?? "…"}</p>
+        <p className="text-xs text-muted-foreground">{data?.cargo}</p>
+      </div>
+      <div className="grid h-9 w-9 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{iniciales}</div>
+      <button onClick={salir} title="Cerrar sesión" className="rounded-md p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground">
+        <LogOut className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
 
 const nav = [
   { to: "/", label: "Dashboard General", icon: LayoutDashboard },
@@ -66,7 +103,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Bell className="h-5 w-5 text-muted-foreground" />
               <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-danger" />
             </span>
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">RH</div>
+            <UserMenu />
           </div>
         </header>
         <main key={path} className="animate-rise p-6 lg:p-8">{children}</main>

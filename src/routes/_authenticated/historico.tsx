@@ -4,7 +4,7 @@ import { EstadoBadge, PageHeader, RiskBadge } from "@/components/app-shell";
 import { acciones as inicial, type Estado } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/historico")({
+export const Route = createFileRoute("/_authenticated/historico")({
   head: () => ({
     meta: [
       { title: "Histórico y acciones de retención — TalentAnalytics" },

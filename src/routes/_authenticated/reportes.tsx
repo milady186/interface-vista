@@ -4,7 +4,7 @@ import { ArrowRight, Database, Monitor, Server } from "lucide-react";
 import { PageHeader, Panel } from "@/components/app-shell";
 import { COEFICIENTES, acciones, tendenciaMensual } from "@/lib/data";
 
-export const Route = createFileRoute("/reportes")({
+export const Route = createFileRoute("/_authenticated/reportes")({
   head: () => ({
     meta: [
       { title: "Reportes y modelo — TalentAnalytics" },
