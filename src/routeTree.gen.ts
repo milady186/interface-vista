@@ -9,104 +9,110 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ColaboradoresRouteImport } from './routes/colaboradores'
-import { Route as HistoricoRouteImport } from './routes/historico'
-import { Route as ReportesRouteImport } from './routes/reportes'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedColaboradoresRouteImport } from './routes/_authenticated/colaboradores'
+import { Route as AuthenticatedHistoricoRouteImport } from './routes/_authenticated/historico'
+import { Route as AuthenticatedReportesRouteImport } from './routes/_authenticated/reportes'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/_authenticated/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ColaboradoresRoute = ColaboradoresRouteImport.update({
-  id: '/colaboradores',
-  path: '/colaboradores',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HistoricoRoute = HistoricoRouteImport.update({
-  id: '/historico',
+const AuthenticatedColaboradoresRoute =
+  AuthenticatedColaboradoresRouteImport.update({
+    id: '/_authenticated/colaboradores',
+    path: '/colaboradores',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedHistoricoRoute = AuthenticatedHistoricoRouteImport.update({
+  id: '/_authenticated/historico',
   path: '/historico',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReportesRoute = ReportesRouteImport.update({
-  id: '/reportes',
+const AuthenticatedReportesRoute = AuthenticatedReportesRouteImport.update({
+  id: '/_authenticated/reportes',
   path: '/reportes',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/colaboradores': typeof ColaboradoresRoute
-  '/historico': typeof HistoricoRoute
-  '/reportes': typeof ReportesRoute
+  '/colaboradores': typeof AuthenticatedColaboradoresRoute
+  '/historico': typeof AuthenticatedHistoricoRoute
+  '/reportes': typeof AuthenticatedReportesRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/colaboradores': typeof ColaboradoresRoute
-  '/historico': typeof HistoricoRoute
-  '/reportes': typeof ReportesRoute
+  '/colaboradores': typeof AuthenticatedColaboradoresRoute
+  '/historico': typeof AuthenticatedHistoricoRoute
+  '/reportes': typeof AuthenticatedReportesRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/colaboradores': typeof ColaboradoresRoute
-  '/historico': typeof HistoricoRoute
-  '/reportes': typeof ReportesRoute
+  '/_authenticated/colaboradores': typeof AuthenticatedColaboradoresRoute
+  '/_authenticated/historico': typeof AuthenticatedHistoricoRoute
+  '/_authenticated/reportes': typeof AuthenticatedReportesRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/colaboradores' | '/historico' | '/reportes'
+  fullPaths: '/colaboradores' | '/historico' | '/reportes' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/colaboradores' | '/historico' | '/reportes'
-  id: '__root__' | '/' | '/colaboradores' | '/historico' | '/reportes'
+  to: '/colaboradores' | '/historico' | '/reportes' | '/'
+  id:
+    | '__root__'
+    | '/_authenticated/colaboradores'
+    | '/_authenticated/historico'
+    | '/_authenticated/reportes'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ColaboradoresRoute: typeof ColaboradoresRoute
-  HistoricoRoute: typeof HistoricoRoute
-  ReportesRoute: typeof ReportesRoute
+  AuthenticatedColaboradoresRoute: typeof AuthenticatedColaboradoresRoute
+  AuthenticatedHistoricoRoute: typeof AuthenticatedHistoricoRoute
+  AuthenticatedReportesRoute: typeof AuthenticatedReportesRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/colaboradores': {
-      id: '/colaboradores'
+    '/_authenticated/colaboradores': {
+      id: '/_authenticated/colaboradores'
       path: '/colaboradores'
       fullPath: '/colaboradores'
-      preLoaderRoute: typeof ColaboradoresRouteImport
+      preLoaderRoute: typeof AuthenticatedColaboradoresRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/historico': {
-      id: '/historico'
+    '/_authenticated/historico': {
+      id: '/_authenticated/historico'
       path: '/historico'
       fullPath: '/historico'
-      preLoaderRoute: typeof HistoricoRouteImport
+      preLoaderRoute: typeof AuthenticatedHistoricoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reportes': {
-      id: '/reportes'
+    '/_authenticated/reportes': {
+      id: '/_authenticated/reportes'
       path: '/reportes'
       fullPath: '/reportes'
-      preLoaderRoute: typeof ReportesRouteImport
+      preLoaderRoute: typeof AuthenticatedReportesRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ColaboradoresRoute: ColaboradoresRoute,
-  HistoricoRoute: HistoricoRoute,
-  ReportesRoute: ReportesRoute,
+  AuthenticatedColaboradoresRoute: AuthenticatedColaboradoresRoute,
+  AuthenticatedHistoricoRoute: AuthenticatedHistoricoRoute,
+  AuthenticatedReportesRoute: AuthenticatedReportesRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

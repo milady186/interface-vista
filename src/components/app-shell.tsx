@@ -66,7 +66,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Bell className="h-5 w-5 text-muted-foreground" />
               <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-danger" />
             </span>
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">RH</div>
+            <UserMenu />
           </div>
         </header>
         <main key={path} className="animate-rise p-6 lg:p-8">{children}</main>
