@@ -145,7 +145,7 @@ const numericos: { key: keyof ColaboradorInput; label: string; min: number; max:
   { key: "horasExtra", label: "Horas extra pagadas (%)", min: 0, max: 100, step: 1 },
 ];
 
-function Formulario({ c, onClose }: { c?: Colaborador; onClose: () => void }) {
+function Formulario({ c, onClose }: { c?: Colaborador | undefined; onClose: () => void }) {
   const [v, setV] = useState<ColaboradorInput>(c ? { ...c } : vacio);
   const guardar = useGuardarColaborador();
   const pred = predecir(v);
