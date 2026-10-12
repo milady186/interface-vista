@@ -42,7 +42,8 @@ export const COEFICIENTES = [
   { variable: "Satisfacción laboral", key: "satisfaccion", coef: -0.48 },
   { variable: "Horas extra pagadas", key: "horasExtra", coef: -0.015 },
 ] as const;
-const INTERCEPTO = 2.6;
+export const INTERCEPTO = 2.6;
+export const CARGOS = cargos.map(([c]) => c);
 
 function generar(): Colaborador[] {
   const out: Colaborador[] = [];

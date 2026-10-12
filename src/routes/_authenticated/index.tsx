@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AlertTriangle, TrendingDown, Users, Wallet, ShieldAlert } from "lucide-react";
 import { PageHeader, Panel, RiskBadge } from "@/components/app-shell";
-import { alertas, colaboradores, rotacionPorCampana } from "@/lib/data";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { rotacionPorCampana } from "@/lib/data";
+import { colaboradoresQuery } from "@/lib/colaboradores-db";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -13,17 +15,21 @@ export const Route = createFileRoute("/_authenticated/")({
       { property: "og:description", content: "KPIs de rotación, riesgo de renuncia y alertas tempranas." },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(colaboradoresQuery),
   component: Dashboard,
 });
 
 function Dashboard() {
+  const { data: colaboradores } = useSuspenseQuery(colaboradoresQuery);
+  const total = colaboradores.length;
+  const alertas = colaboradores.filter((c) => c.riesgo === "Alto").sort((a, b) => b.probabilidad - a.probabilidad).slice(0, 6);
   const dist = (["Bajo", "Medio", "Alto"] as const).map((r) => ({ name: r, value: colaboradores.filter((c) => c.riesgo === r).length }));
   const altos = dist[2]!.value;
   const kpis = [
     { label: "Tasa de rotación actual", value: "35%", hint: "Anual · meta 20%", icon: TrendingDown, tone: "text-danger" },
-    { label: "Colaboradores activos", value: "200", hint: "6 campañas", icon: Users, tone: "text-primary" },
+    { label: "Colaboradores activos", value: String(total), hint: "6 campañas", icon: Users, tone: "text-primary" },
     { label: "Costo anual de reposición", value: "S/ 105,000", hint: "Reclutamiento + capacitación", icon: Wallet, tone: "text-warning" },
-    { label: "En riesgo alto", value: String(altos), hint: `${((altos / 200) * 100).toFixed(0)}% de la plantilla`, icon: ShieldAlert, tone: "text-danger" },
+    { label: "En riesgo alto", value: String(altos), hint: `${((altos / Math.max(1, total)) * 100).toFixed(0)}% de la plantilla`, icon: ShieldAlert, tone: "text-danger" },
   ];
   const colors = ["var(--success)", "var(--warning)", "var(--danger)"];
 
@@ -97,7 +103,7 @@ function Dashboard() {
               </div>
               <span className="font-display text-sm font-semibold text-danger">{(a.probabilidad * 100).toFixed(0)}%</span>
               <RiskBadge riesgo="Alto" />
-              <span className="w-20 text-right text-xs text-muted-foreground">{a.hace}</span>
+              
             </li>
           ))}
         </ul>
