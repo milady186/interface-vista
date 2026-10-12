@@ -153,10 +153,10 @@ function Formulario({ c, onClose }: { c?: Colaborador; onClose: () => void }) {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!v.nombre.trim()) return toast.error("Ingresa el nombre del colaborador");
+    if (!v.nombre.trim()) { toast.error("Ingresa el nombre del colaborador"); return; }
     for (const n of numericos) {
       const x = Number(v[n.key]);
-      if (Number.isNaN(x) || x < n.min || x > n.max) return toast.error(`${n.label}: valor entre ${n.min} y ${n.max}`);
+      if (Number.isNaN(x) || x < n.min || x > n.max) { toast.error(`${n.label}: valor entre ${n.min} y ${n.max}`); return; }
     }
     guardar.mutate(
       { id: c?.id, input: { ...v, nombre: v.nombre.trim().slice(0, 120) } },

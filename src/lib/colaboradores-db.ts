@@ -46,7 +46,7 @@ export const colaboradoresQuery = queryOptions({
 export function useGuardarColaborador() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, input }: { id?: number; input: ColaboradorInput }) => {
+    mutationFn: async ({ id, input }: { id?: number | undefined; input: ColaboradorInput }) => {
       const row = toRow(input);
       const { error } = id
         ? await supabase.from("colaboradores").update({ ...row, updated_at: new Date().toISOString() }).eq("id", id)
