@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      colaboradores: {
+        Row: {
+          antiguedad_meses: number
+          ausentismo: number
+          campana: string
+          cargo: string
+          created_at: string
+          horas_extra: number
+          id: number
+          metas: number
+          nombre: string
+          penalidades: number
+          quejas: number
+          satisfaccion: number
+          sueldo: number
+          tardanzas: number
+          turno: string
+          updated_at: string
+        }
+        Insert: {
+          antiguedad_meses?: number
+          ausentismo?: number
+          campana: string
+          cargo: string
+          created_at?: string
+          horas_extra?: number
+          id?: number
+          metas?: number
+          nombre: string
+          penalidades?: number
+          quejas?: number
+          satisfaccion?: number
+          sueldo?: number
+          tardanzas?: number
+          turno: string
+          updated_at?: string
+        }
+        Update: {
+          antiguedad_meses?: number
+          ausentismo?: number
+          campana?: string
+          cargo?: string
+          created_at?: string
+          horas_extra?: number
+          id?: number
+          metas?: number
+          nombre?: string
+          penalidades?: number
+          quejas?: number
+          satisfaccion?: number
+          sueldo?: number
+          tardanzas?: number
+          turno?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           cargo: string
